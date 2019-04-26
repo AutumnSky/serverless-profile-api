@@ -13,17 +13,20 @@
 
 service: sls-profile-api # NOTE: update this with your service name
 
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
-# frameworkVersion: "=X.X.X"
+custom:
+  DB_CONFIG: ${file(./config/config.js):DB_CONFIG}
 
 provider:
   name: aws
   runtime: nodejs8.10
 
   # you can overwrite defaults here
-  stage: dev
+  stage: ${opt:stage, "dev"}
   region: ap-northeast-2
+  environment:
+    STAGE: ${self:provider.stage}
+    DB_URL: ${self:custom.DB_CONFIG.${self:provider.stage}.DB_URL}
+
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -56,54 +59,15 @@ provider:
 
 functions:
   hello:
-    handler: handler.hello
+    handler: src/handler.serverless
     events:
       - http:
-          path: hello
-          method: get
+          path: /
+          method: ANY
+      - http:
+          path: /{any+}
+          method: ANY
 
-  hello2:
-    handler: src/profile.hello2
-    events:
-      - http:
-          path: hello2
-          method: get
-  getPersonalProjects:
-    handler: src/profile.getPersonalProjects
-    events:
-      - http:
-          path: personalprojects
-          method: get
-  getPersonalProjectById:
-    handler: src/profile.getPersonalProjectById
-    events:
-      - http:
-          path: personalproject/{id}
-          method: get
-  getWorkPortfolios:
-    handler: src/profile.getWorkPortfolios
-    events:
-      - http:
-          path: workportfolios
-          method: get
-  getWorkPortfolioById:
-    handler: src/profile.getWorkPortfolioById
-    events:
-      - http:
-          path: workportfolio/{id}
-          method: get
-  getPortfolios:
-    handler: src/profile.getPortfolios
-    events:
-      - http:
-          path: portfolios
-          method: get
-  getPortfolioById:
-    handler: src/profile.getPortfolioById
-    events:
-      - http:
-          path: portfolio/{id}
-          method: get
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details

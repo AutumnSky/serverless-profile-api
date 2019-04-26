@@ -12,3 +12,5 @@ parserOptions:
   ecmaVersion: 2018
 rules:
   strict: off
+  no-console: off
+  no-unused-vars: warn
