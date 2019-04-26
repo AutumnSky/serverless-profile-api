@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const schema = new mongoose.Schema({
   company: String,
@@ -26,4 +26,4 @@ const schema = new mongoose.Schema({
 
 global.WorkPortfolio = global.WorkPortfolio || mongoose.model('WorkPortfolio', schema);
 
-module.exports = global.WorkPortfolio;
+export default global.WorkPortfolio;

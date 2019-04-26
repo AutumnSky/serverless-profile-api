@@ -13,8 +13,15 @@
 
 service: sls-profile-api # NOTE: update this with your service name
 
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
 custom:
   DB_CONFIG: ${file(./config/config.js):DB_CONFIG}
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
 
 provider:
   name: aws
@@ -26,7 +33,6 @@ provider:
   environment:
     STAGE: ${self:provider.stage}
     DB_URL: ${self:custom.DB_CONFIG.${self:provider.stage}.DB_URL}
-
 
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
@@ -58,8 +64,8 @@ provider:
 #    - exclude-me-dir/**
 
 functions:
-  hello:
-    handler: src/handler.serverless
+  api:
+    handler: src/handler.serverlessApp
     events:
       - http:
           path: /

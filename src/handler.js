@@ -1,12 +1,13 @@
 'use strict';
 
+import express from 'express';
+import serverless from 'serverless-http';
+import mongoose from 'mongoose';
+import Portfolio from './models/Portfolio.model';
+import PersonalProject from './models/PersonalProject.model';
+import WorkPortfolio from './models/WorkPortfolio.model';
+
 require('dotenv').config();
-const express = require('express');
-const serverless = require('serverless-http');
-const mongoose = require('mongoose');
-const Portfolio = require('./models/Portfolio.model');
-const PersonalProject = require('./models/PersonalProject.model');
-const WorkPortfolio = require('./models/WorkPortfolio.model');
 
 let connection = null;
 
@@ -22,6 +23,7 @@ const connect = () => {
 };
 
 const app = express();
+const serverlessApp = serverless(app);
 
 const sendError = (res, e) => {
   res.json({
@@ -29,8 +31,8 @@ const sendError = (res, e) => {
   });
 };
 
-app.get('/hello', (req, res) => {
-  res.send('hello me');
+app.get('/', (req, res) => {
+  res.send('hello world 😀');
 });
 
 app.get('/portfolios', async (req, res) => {
@@ -43,7 +45,7 @@ app.get('/portfolios', async (req, res) => {
   }
 });
 
-module.exports = {
+export {
   app,
-  serverless: serverless(app),
+  serverlessApp,
 };

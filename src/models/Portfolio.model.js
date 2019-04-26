@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const schema = new mongoose.Schema({
   projectName: {
@@ -25,4 +25,4 @@ const schema = new mongoose.Schema({
 
 global.Portfolio = global.Portfolio || mongoose.model('Portfolio', schema);
 
-module.exports = global.Portfolio;
+export default global.Portfolio;
