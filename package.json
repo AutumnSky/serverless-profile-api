@@ -1,6 +1,7 @@
 {
   "scripts": {
     "dev": "nodemon --exec babel-node src/index.js",
+    "offline": "sls offline start",
     "deploy": "sls deploy -s dev",
     "deploy:prod": "sls deploy -s prod"
   },
