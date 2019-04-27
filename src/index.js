@@ -1,7 +1,8 @@
 'use strict';
 
+// this only for local server running
 import { app } from './handler';
 
-app.listen(3000, () => {
-  console.log('Serverless running on http://localhost:3000');
+app.listen(process.env.PORT, () => {
+  console.log(`Serverless running on http://localhost:${process.env.PORT}`);
 });

@@ -3,6 +3,7 @@
 import express from 'express';
 import serverless from 'serverless-http';
 import mongoose from 'mongoose';
+import cors from 'cors';
 import routes from './routes';
 
 require('dotenv').config();
@@ -28,6 +29,10 @@ const app = express();
 const serverlessApp = serverless(app);
 
 // middlewares
+// cors
+app.use(cors());
+
+// db
 app.use('/', async (req, res, next) => {
   try {
     await connect();
